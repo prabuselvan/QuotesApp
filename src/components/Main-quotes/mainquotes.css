@@ -1,0 +1,35 @@
+.leftheading{
+    float: left;
+    width: 80%;
+}
+.rightheading {
+    float: right;
+    background-color: lightblue;
+    color: antiquewhite;
+    height: 53px;
+    line-height: 55px;
+    width: 20%;
+    
+}
+.Mainquotes{
+    text-align: center;
+    padding: 10px;
+    background-color: lightblue;
+    color: antiquewhite;
+    padding-left: 150px;
+
+}
+
+.rightheading li {
+    display: inline-block;
+    padding-right: 40px;
+    /* margin-left: 30px; */
+}
+.rightheading li a{
+    /* margin-right: 10px; */
+    cursor: pointer;
+}
+
+
+
+
