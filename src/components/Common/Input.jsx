@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 const Input = ({label,text, placeholder, name, onChange, value, error, successMessage})=> {
+    console.log('successMessage ', successMessage);
     return(
         <div className='form-group row '>
                 <label className='col-sm-2 col-form-label ml-5'> {label} </label>
@@ -10,7 +11,7 @@ const Input = ({label,text, placeholder, name, onChange, value, error, successMe
                 </div>
                 {/* {error? <div className='alert alert-warning'> {error} </div> : null} */}
                 {/* {isUserExists ? null : <div className='alert alert-danger'>  {errmessage} </div> } */}
-
+                
                 {successMessage? <div className='alert alert-success'> {error} </div> : <div className='alert alert-danger'> {error}</div>}
                 {/* {successMessage && <div className='alert alert-success'> {error} </div>}                 */}
         </div>
