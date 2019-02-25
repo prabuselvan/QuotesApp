@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 const Input = ({label,text, placeholder, name, onChange, value, error, successMessage})=> {
     return(
@@ -11,8 +12,14 @@ const Input = ({label,text, placeholder, name, onChange, value, error, successMe
                 {/* {isUserExists ? null : <div className='alert alert-danger'>  {errmessage} </div> } */}
 
                 {successMessage? <div className='alert alert-success'> {error} </div> : <div className='alert alert-danger'> {error}</div>}
+                {/* {successMessage && <div className='alert alert-success'> {error} </div>}                 */}
         </div>
     )
 }
 
+Input.defaultProps = {
+    error: 'Please enter the details'
+}
+
 export default Input;
+
