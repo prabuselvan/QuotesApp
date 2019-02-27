@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 const Input = ({label,text, placeholder, name, onChange, value, error, successMessage})=> {
-    console.log('successMessage ', successMessage);
+    // console.log('successMessage ', successMessage);
     return(
         <div className='form-group row '>
                 <label className='col-sm-2 col-form-label ml-5'> {label} </label>
