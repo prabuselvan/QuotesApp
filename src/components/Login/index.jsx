@@ -13,14 +13,14 @@ class Login extends React.Component{
             password: ''
         },
         errors: {
-
+            successMessage: false
         },
         redirect: false,
         loginUserDetails: {
             isUserExists : true,
             errmessage:''
         },
-        successMessage: false
+      
         
     }
 
@@ -30,19 +30,15 @@ class Login extends React.Component{
         // before updating the state we have to use spread operator
 
         const errors = {...this.state.errors};
-
        const Message = validateInput(input);
-
-    //    console.log('error Message ', Message);
-
-       console.log(errors[input.name]);
-       if (Message!=='Email is valid')  {
+       if (Message!=='Email is valid' || Message!=='Password is required')  {
         errors[input.name]=Message;
        } else {
             errors[input.name]='Email is Valid';
-           this.setState({
-            successMessage:true
-           })
+            errors.successMessage= true;
+        //    this.setState({
+        //         errors
+        //    });
        }
        const account= {...this.state.account};
     //    console.log(account);
@@ -61,8 +57,8 @@ class Login extends React.Component{
         const loginUserDetails = {...this.state.loginUserDetails};
          e.preventDefault();
          console.log('Login method')
-        console.log(this.state.account.email[0]);
-        console.log(this.state.account.password[0]);
+        //  console.log(this.state.account.email[0]);
+        //  console.log(this.state.account.password[0]);
         fire.auth().signInWithEmailAndPassword(this.state.account.email[0], this.state.account.password[0]).then((u)=> {
                 console.log('success');
                 console.log(u);
@@ -85,6 +81,9 @@ class Login extends React.Component{
          if (redirect)  return <Redirect to='/search'/>
      }
     
+     signUp= ()=> {
+         console.log('signup')
+     }
 
     render() {
         const {email, password} = this.state.account;
@@ -95,11 +94,11 @@ class Login extends React.Component{
             <div>
                 <h1 className='loginHeading'> Login</h1>
                   <form onSubmit= {this.login}>
-                        <Input name='email' type='text' label='Email' placeholder='Email'  onChange={this.onHandleChange} value={email}  error={errors.email} successMessage={successMessage}/>
-                        <Input name='password' type='password'  label='Password' placeholder='Password' onChange={this.onHandleChange} value={password}/>
-                        <button className='btn btn-primary loginbtn'> LOGIN </button>    
+                        <Input name='email' type='text' label='Email' placeholder='Email'  onChange={this.onHandleChange} value={email}  error={errors.email} successMessage={errors.successMessage}/>
+                        <Input name='password' type='password'  label='Password' placeholder='Password' onChange={this.onHandleChange} value={password} error={errors.password} successMessage={errors.successMessage}/>
+                        <button className='btn btn-primary loginbtn'> LOGIN </button>  
                   </form>  
-                  {/* {email? <Search/> :null } */}
+         
                   {this.redirect()}
                   {!loginUserDetails.isUserExists ? <div className='alert alert-danger col-sm-2 errorMessage'>  Invalid User Name and Password </div> : null}
                 

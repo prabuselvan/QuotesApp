@@ -1,6 +1,10 @@
 import React from 'react';
-import './signup.css';
 import Input from '../Common/Input';
+import {Link} from 'react-router-dom';
+import fire from '../../config/Fire';
+import {Redirect} from 'react-router-dom';
+import './signup.css';
+
 class Signup extends React.Component{
     state={
         signup: {
@@ -12,7 +16,8 @@ class Signup extends React.Component{
          errors: {
 
             },
-        checker: false
+        checker: false,
+        userRegistered: false
     }
 
     validateProperty=({name , value })=>{
@@ -66,7 +71,7 @@ class Signup extends React.Component{
     }
 
     onHandleChange=({target: input })=> {
-        const signup = {...this.state.signup};
+        let signup = {...this.state.signup};
         const errors ={...this.state.errors};
         let checker=this.state.checker;
         // console.log(signup);
@@ -87,15 +92,37 @@ class Signup extends React.Component{
             checker
         });
     }
+
+    registration=(e)=> {
+        e.preventDefault();
+        console.log('registration');
+        // console.log(this.state.signup.email,this.state.signup.password );
+        let {username}=  this.state.signup;
+        console.log('username is', username);
+       fire.auth().createUserWithEmailAndPassword(this.state.signup.email,this.state.signup.password).then((u)=> {
+            console.log('Success');
+            console.log(u);
+            this.setState({userRegistered: true,
+                            username:''});
+       }).catch((error)=> {
+            console.log('error ', error);
+            this.setState({userRegistered: false})
+
+       })   
+    }
+
+    redirecttoLogin=(e)=>{
+        return <Redirect  to='/login'/>
+    }
     render() {
         
-        const {username,email,password,confirmpassword} = this.state.signup;
-        const {errors, checker}  = this.state;
+        let {username,email,password,confirmpassword} = this.state.signup;
+        const {errors, checker, userRegistered}  = this.state;
         return(
             
             <div>
                     <h3 className='signupheading'> Sign Up </h3>
-                    <form>
+                    <form onSubmit={this.registration}>
 
                         <Input label='UserName' type='text' name='username' placeholder='UserName' onChange={this.onHandleChange} value={username} error={errors.username} successMessage={checker}/>
                         
@@ -103,11 +130,10 @@ class Signup extends React.Component{
 
                         <Input label='Password' name='password' placeholder='Password' onChange={this.onHandleChange} value={password} error={errors.password} successMessage={checker}  />
 
-                        <Input label='Confirm Password' name='confirmpassword' placeholder='Confirm Password' onChange={this.onHandleChange} value={confirmpassword} error={errors.password} successMessage={checker}  />
-                            
+                        <Input label='Confirm Password' name='confirmpassword' placeholder='Confirm Password' onChange={this.onHandleChange} value={confirmpassword} error={errors.password} successMessage={checker}/>   
                         <button className='btn btn-primary register'> REGISTER</button>
 
-
+                        {userRegistered &&  <div className=' col-sm-5 alert alert-primary ml-5'> User Registered Successfully Please Click on Login link to Continue <Link to='/login'>  Login </Link> </div>}
                       
                     </form>
             </div>
