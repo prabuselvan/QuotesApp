@@ -16,9 +16,11 @@ class Login extends React.Component{
             successMessage: false
         },
         redirect: false,
+        register:false,
         loginUserDetails: {
             isUserExists : true,
-            errmessage:''
+            errmessage:'',
+            emptySubmit: false
         },
       
         
@@ -52,13 +54,20 @@ class Login extends React.Component{
      }
 
      login=(e)=> {
-        //  const {username, password} =this.state.account;
-        // console.log(username[0], password[0]);
+
         const loginUserDetails = {...this.state.loginUserDetails};
+        const {email, password} = this.state.account;
+
          e.preventDefault();
          console.log('Login method')
-        //  console.log(this.state.account.email[0]);
-        //  console.log(this.state.account.password[0]);
+        // console.log(email[0]);
+        // console.log(password[0]);
+        console.log('email is ',email);
+        if (email === '' || password ==='' ) {
+            loginUserDetails.emptySubmit=true;
+            this.setState({loginUserDetails});
+            return
+        }
         fire.auth().signInWithEmailAndPassword(this.state.account.email[0], this.state.account.password[0]).then((u)=> {
                 console.log('success');
                 console.log(u);
@@ -81,9 +90,13 @@ class Login extends React.Component{
          if (redirect)  return <Redirect to='/search'/>
      }
     
-     signUp= ()=> {
+     signUp= (e)=> {
+        //  e.preventDefault();
          console.log('signup')
-     }
+        this.setState({register: true});
+        const {register} = this.state;
+        if (register) return <Redirect to='/signup'/>
+     }  
 
     render() {
         const {email, password} = this.state.account;
@@ -96,12 +109,17 @@ class Login extends React.Component{
                   <form onSubmit= {this.login}>
                         <Input name='email' type='text' label='Email' placeholder='Email'  onChange={this.onHandleChange} value={email}  error={errors.email} successMessage={errors.successMessage}/>
                         <Input name='password' type='password'  label='Password' placeholder='Password' onChange={this.onHandleChange} value={password} error={errors.password} successMessage={errors.successMessage}/>
-                        <button className='btn btn-primary loginbtn'> LOGIN </button>  
+                        {/* <input type='submit' value='Login' name='Login'/>
+                        <input type='submit' value='Register' name='Register'/> */}
+                        <button className='btn btn-primary loginbtn' name='login' value='login'>  LOGIN </button>  
+                        <button className='btn btn-primary signupbtn' onClick={this.signUp}> REGSITER</button>
                   </form>  
          
                   {this.redirect()}
+               
+        
                   {!loginUserDetails.isUserExists ? <div className='alert alert-danger col-sm-2 errorMessage'>  Invalid User Name and Password </div> : null}
-                
+                  {loginUserDetails.emptySubmit && <div className='alert alert-danger col-sm-4 errorMessage'> User Name and Password  Fields are Empty </div> }
             </div>
         )
     }

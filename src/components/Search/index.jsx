@@ -3,6 +3,8 @@ import fire from '../../config/Fire';
 import Input from '../Common/Input';
 import Pagination from '../Common/Pagination';
 import {paginate} from '../utils/paginate';
+import {Link} from 'react-router-dom';
+import './search.css';
 class Search extends React.Component {
 
     state= {
@@ -38,8 +40,23 @@ class Search extends React.Component {
         ],
         searchVal: '',
         successMessage: true,
-        perPageCount:4,
-        currentPage: 1
+        perPageCount:5,
+        currentPage: 1,
+        cuurentPageQuotes: [
+            "Work hard for what you want because it won't come to you without a fight. You have to be strong and courageous and know that you can do anything you put your mind to. If somebody puts you down or criticizes you, just keep on believing in yourself and turn it into something positive",
+            "Push yourself, because no one else is going to do it for you.",
+            "Great things never come from comfort zones.",
+            " Dream it. Wish it. Do it.",
+            "The harder you work for something, the greater you’ll feel when you achieve it.",
+
+        ],
+        filteredQuotes: [
+            "Work hard for what you want because it won't come to you without a fight. You have to be strong and courageous and know that you can do anything you put your mind to. If somebody puts you down or criticizes you, just keep on believing in yourself and turn it into something positive",
+            "Push yourself, because no one else is going to do it for you.",
+            "Great things never come from comfort zones.",
+            " Dream it. Wish it. Do it.",
+            "The harder you work for something, the greater you’ll feel when you achieve it.",
+        ]
 
     }
 
@@ -60,40 +77,70 @@ authListener( ) {
 
 onSearchChange=(e)=> {
     const val  = e.target.value;
-    const updatedQuotes = [...this.state.quotes];
+    const updatedQuotes = [...this.state.cuurentPageQuotes];
     console.log('updated quotes ', updatedQuotes);
     const filteredArray=updatedQuotes.filter((quote)=> quote.includes(val) === true );
     // console.log('filtered array is ', filteredArray);
     this.setState({
         searchVal: val,
-        quotes: filteredArray
+        filteredQuotes: filteredArray
     });
 }
 
 handlePageChange=(newPage)=> {
-
+    const {quotes: allQuotes, searchVal, successMessage, perPageCount, currentPage} = this.state;
+    const quotes = paginate(allQuotes, currentPage, perPageCount);
     this.setState({
-            currentPage: newPage
+            currentPage: newPage,
+            cuurentPageQuotes: quotes
+    }, ()=> {
+        this.onSearchChange({target: {value : ''} });
     });
     
+}
+
+logOut=(e)=> {
+    e.preventDefault();
+    fire.auth().signOut().then((u)=> {
+        console.log('signed out');
+        // console.log(u);
+    }).catch((error)=> {
+        console.log('error in sign out ',error);
+    })
 }
 
 
     render() {
         const {quotes: allQuotes, searchVal, successMessage} = this.state;
         const {length : count} =this.state.quotes;
-        const {perPageCount, currentPage}= this.state;
-        const quotes = paginate(allQuotes, currentPage, perPageCount);
+        const {perPageCount, currentPage, cuurentPageQuotes, filteredQuotes}= this.state;
+        
         return(
             <div>
-                <h1> Search Page</h1>
+                <div className='mainSearchpage'>
+                    <div className='searchHeading'>
+                            <h1> Search Page</h1>
+                    </div>
+
+                    <div className='searchLinks'>
+                            <ul> 
+                                <li> <Link to='/profile' > Profile </Link> </li>
+                                <li> <Link to='/' onClick={this.logOut}> Logout </Link> </li>
+                            </ul>
+                    </div>
+
+                </div>
+
                  <Input type='text' label='Search' name='search'  placeholder='search' value={searchVal}  onChange={this.onSearchChange} successMessage={successMessage}/>
-                {quotes.map((quote, index)=> {
+               <div className='border'>
+
+          
+                {filteredQuotes.map((quote, index)=> {
                     return  <ul className='list-group' key={index}>
                                 <li className='list-group-item'> {quote} </li>  
                     </ul> 
                 })} 
-
+                </div>
                 <Pagination count={count} perPageCount={perPageCount} onPageChange={this.handlePageChange} currentPage={currentPage}/>
 
             </div>

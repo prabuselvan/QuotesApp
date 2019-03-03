@@ -1,0 +1,19 @@
+.searchHeading{
+float: left;
+}
+
+.searchLinks{
+    float: right;
+}
+.mainSearchpage::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.searchLinks ul li{
+    list-style-type: none;
+    display: inline-block;
+    margin-right: 50px;
+    margin-top: 10px;
+}
