@@ -107,7 +107,7 @@ class Login extends React.Component{
                         <Input name='email' type='text' label='Email' placeholder='Email'  onChange={this.onHandleChange} value={email}  error={errors.email} successMessage={errors.successMessage}/>
                         <Input name='password' type='password'  label='Password' placeholder='Password' onChange={this.onHandleChange} value={password} error={errors.password} successMessage={errors.successMessage}/>
                         <button className='btn btn-primary loginbtn' name='login' value='login'>  LOGIN </button>  
-                        <button className='btn btn-primary signupbtn' onClick={this.signUp}> REGSITER</button>
+                        {/* <button className='btn btn-primary signupbtn' onClick={this.signUp}> REGSITER</button> */}
                   </form>  
          
                   {this.redirect()}

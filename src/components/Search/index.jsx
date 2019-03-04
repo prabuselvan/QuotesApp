@@ -4,6 +4,7 @@ import Input from '../Common/Input';
 import Pagination from '../Common/Pagination';
 import {paginate} from '../utils/paginate';
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import './search.css';
 class Search extends React.Component {
 
@@ -101,9 +102,10 @@ handlePageChange=(newPage)=> {
 
 logOut=(e)=> {
     e.preventDefault();
-    fire.auth().signOut().then((u)=> {
+    fire.auth().signOut().then(()=> {
         console.log('signed out');
         // console.log(u);
+        // return <Redirect to='/logout'/>
     }).catch((error)=> {
         console.log('error in sign out ',error);
     })
@@ -124,8 +126,8 @@ logOut=(e)=> {
 
                     <div className='searchLinks'>
                             <ul> 
-                                <li> <Link to='/profile' > Profile </Link> </li>
-                                <li> <Link to='/' onClick={this.logOut}> Logout </Link> </li>
+                                <li> <Link to='/profile'> Profile </Link> </li>
+                                <li> <Link to='/logout' onClick={this.logOut}> Logout </Link> </li>
                             </ul>
                     </div>
 

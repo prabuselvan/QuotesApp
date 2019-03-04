@@ -111,9 +111,9 @@ class Signup extends React.Component{
        })   
     }
 
-    redirecttoLogin=(e)=>{
-        return <Redirect  to='/login'/>
-    }
+    // redirecttoLogin=(e)=>{
+    //     return <Redirect  to='/login'/>
+    // }
     render() {
         
         let {username,email,password,confirmpassword} = this.state.signup;
