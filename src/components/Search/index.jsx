@@ -127,7 +127,7 @@ logOut=(e)=> {
                     <div className='searchLinks'>
                             <ul> 
                                 <li> <Link to='/profile'> Profile </Link> </li>
-                                <li> <Link to='/logout' onClick={this.logOut}> Logout </Link> </li>
+                                <li> <Link to='/logout'> Logout </Link> </li>
                             </ul>
                     </div>
 
