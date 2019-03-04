@@ -54,15 +54,12 @@ class Login extends React.Component{
      }
 
      login=(e)=> {
-
+        console.log(e.target.name);
         const loginUserDetails = {...this.state.loginUserDetails};
         const {email, password} = this.state.account;
 
          e.preventDefault();
-         console.log('Login method')
-        // console.log(email[0]);
-        // console.log(password[0]);
-        console.log('email is ',email);
+         console.log('Login method');
         if (email === '' || password ==='' ) {
             loginUserDetails.emptySubmit=true;
             this.setState({loginUserDetails});
@@ -93,9 +90,9 @@ class Login extends React.Component{
      signUp= (e)=> {
         //  e.preventDefault();
          console.log('signup')
-        this.setState({register: true});
-        const {register} = this.state;
-        if (register) return <Redirect to='/signup'/>
+        // this.setState({register: true});
+        // const {register} = this.state;
+         return <Redirect to='/signup'/>
      }  
 
     render() {
@@ -109,8 +106,6 @@ class Login extends React.Component{
                   <form onSubmit= {this.login}>
                         <Input name='email' type='text' label='Email' placeholder='Email'  onChange={this.onHandleChange} value={email}  error={errors.email} successMessage={errors.successMessage}/>
                         <Input name='password' type='password'  label='Password' placeholder='Password' onChange={this.onHandleChange} value={password} error={errors.password} successMessage={errors.successMessage}/>
-                        {/* <input type='submit' value='Login' name='Login'/>
-                        <input type='submit' value='Register' name='Register'/> */}
                         <button className='btn btn-primary loginbtn' name='login' value='login'>  LOGIN </button>  
                         <button className='btn btn-primary signupbtn' onClick={this.signUp}> REGSITER</button>
                   </form>  
